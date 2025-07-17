@@ -1,0 +1,8 @@
+[submodule "faad2"]
+	path = faad2
+	url = https://github.com/knik0/faad2
+	tag = 2.11.2
+[submodule "emsdk"]
+	path = emsdk
+	url = https://github.com/emscripten-core/emsdk
+	tag = 4.0.11

@@ -1,0 +1,20 @@
+{
+  "name": "@ohrstrom/faad2-wasm",
+  "version": "2.11.2-rc.1",
+  "description": "FAAD2 WASM decoder",
+  "main": "faad2_wasm.mjs",
+  "type": "module",
+  "files": [
+    "faad2_wasm.mjs",
+    "faad2_wasm.wasm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ohrstrom/faad2-wasm.git"
+  },
+  "author": "Jonas Ohrstrom <ohrstrom@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}

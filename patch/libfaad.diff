@@ -1,0 +1,21 @@
+--- faad2/libfaad/common.h	2025-07-17 13:30:14
++++ __local__faad2/libfaad/common.h	2025-04-02 17:32:15
+@@ -223,10 +223,18 @@
+ typedef unsigned long uint64_t;
+ typedef signed long int64_t;
+ #endif
++
++#ifndef __UINT32_TYPE__
+ typedef unsigned long uint32_t;
++#endif
++
+ typedef unsigned short uint16_t;
+ typedef unsigned char uint8_t;
++
++#ifndef __INT32_TYPE__
+ typedef signed long int32_t;
++#endif
++
+ typedef signed short int16_t;
+ typedef signed char int8_t;
+ # endif

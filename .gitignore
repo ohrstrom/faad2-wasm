@@ -1,0 +1,7 @@
+.idea
+.vscode
+.DS_Store
+
+pkg/faad2_wasm.*
+
+__local__*

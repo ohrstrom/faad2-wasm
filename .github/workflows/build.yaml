@@ -1,0 +1,112 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # - name: Debug
+      #   run: tree .
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential pkg-config
+
+      - name: Cache EMSDK
+        uses: actions/cache@v3
+        with:
+          path: ./emsdk
+          key: ${{ runner.os }}-emsdk-v4.0.11
+          restore-keys: |
+            ${{ runner.os }}-emsdk-
+
+      - name: Setup
+        run: make setup-submodules && make setup-emsdk
+
+      - name: Patch & Co
+        run: make ensure-headers && make patch-libfaad
+
+      - name: Build
+        run: make build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: faad2-wasm
+          path: |
+            pkg/faad2_wasm.mjs
+            pkg/faad2_wasm.wasm
+
+  release:
+    name: Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download assets
+        uses: actions/download-artifact@v4
+        with:
+          name: faad2-wasm
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            faad2_wasm.mjs
+            faad2_wasm.wasm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+      id-token: write # required for provenance generation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@ohrstrom'
+
+      - name: Download assets
+        uses: actions/download-artifact@v4
+        with:
+          name: faad2-wasm
+
+      - name: Move artifacts
+        run: mv faad2_wasm.mjs faad2_wasm.wasm pkg/
+
+      - run: npm ci
+        working-directory: pkg/
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: pkg/
