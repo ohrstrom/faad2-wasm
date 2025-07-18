@@ -13,7 +13,7 @@
     "url": "git+https://github.com/ohrstrom/faad2-wasm.git"
   },
   "author": "Jonas Ohrstrom <ohrstrom@gmail.com>",
-  "license": "MIT",
+  "license": "LGPL-3.0-or-later",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   }

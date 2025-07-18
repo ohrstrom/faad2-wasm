@@ -5,6 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+# EMSDK_VERSION := 3.1.74
 EMSDK_VERSION := 4.0.11
 
 .PHONY: setup-submodules
@@ -49,7 +50,7 @@ build:
 	  -DPACKAGE_VERSION="\"2.11.2\"" \
 	  -s STACK_SIZE=262144 \
 	  -s EXPORTED_FUNCTIONS='["_get_faad_capabilities", "_init_decoder", "_decode_frame", "_malloc", "_free"]' \
-	  -s EXPORTED_RUNTIME_METHODS='["cwrap", "getValue", "setValue"]' \
+	  -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "getValue", "setValue", "writeArrayToMemory", "HEAPU8"]' \
 	  -s MODULARIZE=1 \
 	  -s EXPORT_NAME="Faad2Module" \
 	  -s ALLOW_MEMORY_GROWTH=1 \
