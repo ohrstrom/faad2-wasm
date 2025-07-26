@@ -1,6 +1,6 @@
 {
   "name": "@ohrstrom/faad2-wasm",
-  "version": "2.11.2-rc.3",
+  "version": "2.11.2-rc.4",
   "description": "FAAD2 WASM decoder",
   "main": "faad2_wasm.mjs",
   "type": "module",
@@ -15,6 +15,15 @@
   },
   "author": "Jonas Ohrstrom <ohrstrom@gmail.com>",
   "license": "LGPL-3.0-or-later",
+  "keywords": [
+    "aac",
+    "audio",
+    "decoder",
+    "faad2",
+    "wasm",
+    "audio-decoding",
+    "web-audio"
+  ],
   "publishConfig": {
     "access": "public"
   }
