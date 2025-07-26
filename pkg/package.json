@@ -1,6 +1,6 @@
 {
   "name": "@ohrstrom/faad2-wasm",
-  "version": "2.11.2-rc.1",
+  "version": "2.11.2-rc.3",
   "description": "FAAD2 WASM decoder",
   "main": "faad2_wasm.mjs",
   "type": "module",
