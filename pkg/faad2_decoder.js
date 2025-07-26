@@ -1,5 +1,5 @@
-// faad2_decoder.js
-import Faad2Module from './faad2_wasm.mjs'
+import wasmUrl from './faad2_wasm.wasm?url';
+import Faad2ModuleFactory from './faad2_wasm.mjs';
 
 const SAMPLE_RATE = {
   1: 8000,
@@ -27,7 +27,9 @@ class FAAD2Decoder {
 
     try {
       if (!this.module) {
-        this.module = await Faad2Module()
+        this.module = await Faad2ModuleFactory({
+          locateFile: (path) => (path.endsWith('.wasm') ? wasmUrl : path),
+        });
         console.debug('FAAD2: module loaded')
         if (this.module._get_faad_capabilities) {
           console.debug('FAAD2: capabilities', this.module._get_faad_capabilities())

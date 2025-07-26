@@ -89,12 +89,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@ohrstrom'
-
       - name: Download assets
         uses: actions/download-artifact@v4
         with:
@@ -106,7 +100,19 @@ jobs:
       - run: npm ci
         working-directory: pkg/
 
-      - run: npm publish --provenance --access public
+      - name: Publish to npmjs (public)
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: pkg/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@ohrstrom'
+
+      - run: npm publish --provenance --access public --registry=https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: pkg/
